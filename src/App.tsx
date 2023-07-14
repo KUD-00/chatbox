@@ -50,6 +50,7 @@ import {
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableItem } from './SortableItem';
+import RegisterWindow from './RegisterWindow';
 
 function Main() {
     const { t } = useTranslation()
@@ -95,6 +96,9 @@ function Main() {
 
     // 是否展示相关信息的窗口
     const [openAboutWindow, setOpenAboutWindow] = React.useState(false);
+
+    // Register Window
+    const [openRegisterWindow, setOpenRegisterWindow] = React.useState(false);
 
     // 是否展示菜单栏
     const theme = useTheme();
@@ -236,7 +240,8 @@ function Main() {
     };
     const generateName = async (session: Session) => {
         client.replay(
-            store.settings.openaiKey,
+            store.settings.account,
+            store.settings.password,
             store.settings.apiHost,
             store.settings.maxContextSize,
             store.settings.maxTokens,
@@ -271,7 +276,8 @@ function Main() {
     const generate = async (session: Session, promptMsgs: Message[], targetMsg: Message) => {
         messageScrollRef.current = { msgId: targetMsg.id, smooth: false }
         await client.replay(
-            store.settings.openaiKey,
+            store.settings.account,
+            store.settings.password,
             store.settings.apiHost,
             store.settings.maxContextSize,
             store.settings.maxTokens,
@@ -652,8 +658,12 @@ function Main() {
                             store.addToast(t('font size changed, effective after next launch'))
                         }
                     }}
+                    register={() => {setOpenRegisterWindow(true)}}
                     close={() => setOpenSettingWindow(false)}
                 />
+
+                <RegisterWindow open={openRegisterWindow} close={() => setOpenRegisterWindow(false)}/>
+
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
                     close={() => setOpenAboutWindow(false)}
                 />

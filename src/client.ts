@@ -10,7 +10,8 @@ export interface OnTextCallbackResult {
 }
 
 export async function replay(
-    apiKey: string,
+    account: string,
+    password: string,
     host: string,
     maxContextSize: string,
     maxTokens: string,
@@ -61,7 +62,7 @@ export async function replay(
         const response = await fetch(`${host}/v1/chat/completions`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
+                // 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({

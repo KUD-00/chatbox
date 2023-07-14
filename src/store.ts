@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 
 export function getDefaultSettings(): Settings {
     return {
-        openaiKey: '',
+        account: '',
+        password: '',
         apiHost: 'https://api.openai.com',
         model: "gpt-3.5-turbo",
         temperature: 0.7,
@@ -116,13 +117,13 @@ export default function useStore() {
     const [settings, _setSettings] = useState<Settings>(getDefaultSettings())
     const [needSetting, setNeedSetting] = useState(false)
     useEffect(() => {
-        readSettings().then((settings) => {
+/*         readSettings().then((settings) => {
             _setSettings(settings)
             if (settings.openaiKey === '') {
                 setNeedSetting(true)
             }
             i18n.changeLanguage(settings.language).then();
-        })
+        }) */
     }, [])
     const setSettings = (settings: Settings) => {
         _setSettings(settings)

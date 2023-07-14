@@ -31,6 +31,7 @@ interface Props {
     open: boolean
     settings: Settings
     close(): void
+    register(): void
     save(settings: Settings): void
 }
 
@@ -114,15 +115,26 @@ export default function SettingWindow(props: Props) {
         <Dialog open={props.open} onClose={onCancel} fullWidth >
             <DialogTitle>{t('settings')}</DialogTitle>
             <DialogContent>
+                <Button onClick={props.register}>{t('register')}</Button>
                 <TextField
                     autoFocus
                     margin="dense"
-                    label={t('openai api key')}
+                    label={t('account')}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={settingsEdit.account}
+                    onChange={(e) => setSettingsEdit({ ...settingsEdit, account: e.target.value.trim() })}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('password')}
                     type="password"
                     fullWidth
                     variant="outlined"
-                    value={settingsEdit.openaiKey}
-                    onChange={(e) => setSettingsEdit({ ...settingsEdit, openaiKey: e.target.value.trim() })}
+                    value={settingsEdit.password}
+                    onChange={(e) => setSettingsEdit({ ...settingsEdit, password: e.target.value.trim() })}
                 />
                 <FormControl fullWidth variant="outlined" margin="dense">
                     <InputLabel htmlFor="language-select">{t('language')}</InputLabel>

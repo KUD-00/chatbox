@@ -38,7 +38,8 @@ export function createSession(name: string = "Untitled"): Session {
 }
 
 export interface Settings {
-    openaiKey: string
+    account: string
+    password: string
     apiHost: string
     model: string
     maxContextSize: string
