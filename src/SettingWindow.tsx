@@ -5,7 +5,7 @@ import {
     FormGroup, FormControlLabel, Switch, Select, MenuItem, FormControl, InputLabel, Slider, Typography, Box,
 } from '@mui/material';
 import { Settings } from './types'
-import { getDefaultSettings } from './store'
+import useStore, { getDefaultSettings } from './store'
 import ThemeChangeButton from './theme/ThemeChangeIcon';
 import { ThemeMode } from './theme/index';
 import { useThemeSwicher } from './theme/ThemeSwitcher';
@@ -32,6 +32,7 @@ interface Props {
     settings: Settings
     close(): void
     register(): void
+    login(): void
     save(settings: Settings): void
 }
 
@@ -108,6 +109,12 @@ export default function SettingWindow(props: Props) {
         setSettingsEdit({ ...settingsEdit, theme: newMode });
         setMode(newMode);
     }
+    
+    const store = useStore()
+    const onLogout = () => {
+        store.setSettings({...store.settings, apiNodeEndpoints: ['']})
+        store.setSettings({...store.settings, authorization: ''})
+    }
 
     // @ts-ignore
     // @ts-ignore
@@ -116,26 +123,8 @@ export default function SettingWindow(props: Props) {
             <DialogTitle>{t('settings')}</DialogTitle>
             <DialogContent>
                 <Button onClick={props.register}>{t('register')}</Button>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    label={t('account')}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    value={settingsEdit.account}
-                    onChange={(e) => setSettingsEdit({ ...settingsEdit, account: e.target.value.trim() })}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    label={t('password')}
-                    type="password"
-                    fullWidth
-                    variant="outlined"
-                    value={settingsEdit.password}
-                    onChange={(e) => setSettingsEdit({ ...settingsEdit, password: e.target.value.trim() })}
-                />
+                <Button onClick={props.login}>{t('login')}</Button>
+                <Button onClick={onLogout}>{t('logout')}</Button>
                 <FormControl fullWidth variant="outlined" margin="dense">
                     <InputLabel htmlFor="language-select">{t('language')}</InputLabel>
                     <Select

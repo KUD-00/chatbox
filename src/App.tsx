@@ -51,6 +51,7 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableItem } from './SortableItem';
 import RegisterWindow from './RegisterWindow';
+import LoginWindow from "./LoginWindow";
 
 function Main() {
     const { t } = useTranslation()
@@ -97,6 +98,8 @@ function Main() {
     // 是否展示相关信息的窗口
     const [openAboutWindow, setOpenAboutWindow] = React.useState(false);
 
+    // Login Window
+    const [openLoginWindow, setOpenLoginWindow] = React.useState(false);
     // Register Window
     const [openRegisterWindow, setOpenRegisterWindow] = React.useState(false);
 
@@ -659,10 +662,13 @@ function Main() {
                         }
                     }}
                     register={() => {setOpenRegisterWindow(true)}}
+                    login={() => {setOpenLoginWindow(true)}}
                     close={() => setOpenSettingWindow(false)}
                 />
 
                 <RegisterWindow open={openRegisterWindow} close={() => setOpenRegisterWindow(false)}/>
+
+                <LoginWindow open={openLoginWindow} close={() => setOpenLoginWindow(false)} />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
                     close={() => setOpenAboutWindow(false)}
