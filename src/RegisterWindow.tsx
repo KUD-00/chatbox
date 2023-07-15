@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     Button, Alert, Chip,
     Dialog, DialogContent, DialogActions, DialogTitle, TextField,
     FormGroup, FormControlLabel, Switch, Select, MenuItem, FormControl, InputLabel, Slider, Typography, Box,
 } from '@mui/material';
 import { Settings } from './types'
+import useStore from './store'
 import { ThemeMode } from './theme/index';
 import { useThemeSwicher } from './theme/ThemeSwitcher';
 import { Trans, useTranslation } from 'react-i18next'
@@ -16,56 +17,76 @@ interface Props {
     close(): void
 }
 
+interface CaptchaResponse {
+    captcha: string;
+    captcha_id: string;
+}
+
+interface RegisterResponse {
+    api_node_endpoints: [string],
+    authorization: string,
+    expiration: string,
+    user_balances: [
+        {
+            expire_date: string,
+            free_points: 0,
+            llm_model_code: string,
+            llm_model_desc: string,
+            llm_model_name: string,
+            points: 0
+        }
+    ],
+    user_uuid: string
+}
+
 export default function RegisterWindow(props: Props) {
     const { t } = useTranslation()
-
     const [, { setMode }] = useThemeSwicher();
-
     const [msg, setMsg] = React.useState('')
+    const [captchaData, setCaptchaData] = React.useState('')
+    const [captchaID, setCaptchaID] = React.useState('')
+    const emailRef = React.useRef<HTMLInputElement>(null)
+    const nicknameRef = React.useRef<HTMLInputElement>(null)
+    const passwordRef = React.useRef<HTMLInputElement>(null)
+    const captchaRef = React.useRef<HTMLInputElement>(null)
+    const phoneRef = React.useRef<HTMLInputElement>(null)
+
+    const store = useStore()
 
     const onRegister = async () => {
-        try {
-        const response = await fetch(`https://bot100.app:7001/api/v1/users`, {
+        const payload = {
+            captcha: captchaRef.current?.value,
+            captcha_id: captchaID,
+            email: emailRef.current?.value,
+            location: "China",
+            mobile: phoneRef.current?.value,
+            nickname: nicknameRef.current?.value,
+            password: passwordRef.current?.value,
+        };
+        console.log(payload)
+        const response = await fetch("https://bot100.app:7001/api/v1/users", {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             },
-            mode: 'no-cors',
-            body: JSON.stringify({
-                captcha: "111",
-                captcha_id: "111",
-                email: "111",
-                location: "111",
-                mobile: "111",
-                nickname: "111",
-                password: "111",
-            }),
+            mode: 'cors',
+            body: JSON.stringify(payload),
         });
-        await handleSSE(response, (message) => {
-            if (message === '[DONE]') {
-                return;
-            }
-            const data = JSON.parse(message)
-            if (data.error) {
-                setMsg(data.error)
-            }
-        })
-        } catch (error) {
-            throw error
-        }
+        const data: RegisterResponse = await response.json()
+        store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
+        store.setSettings({...store.settings, authorization: data.authorization})
     }
 
     const onCaptcha = async () => {
         const response = await fetch(`https://bot100.app:7001/api/v1/captcha`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             },
-            mode: 'no-cors',
-        });
-        console.log(response)
+            mode: 'cors',
+        })
+        const data: CaptchaResponse = await response.json()
+        setCaptchaData(data.captcha)
+        setCaptchaID(data.captcha_id)
+        console.log(store.settings)
     }
 
     // @ts-ignore
@@ -77,10 +98,20 @@ export default function RegisterWindow(props: Props) {
                 <TextField
                     autoFocus
                     margin="dense"
-                    label={t('account')}
+                    label={t('email')}
                     type="text"
                     fullWidth
                     variant="outlined"
+                    inputRef={emailRef}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('nickname')}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    inputRef={nicknameRef}
                 />
                 <TextField
                     autoFocus
@@ -89,7 +120,27 @@ export default function RegisterWindow(props: Props) {
                     type="password"
                     fullWidth
                     variant="outlined"
+                    inputRef={passwordRef}
                 />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('phone number')}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    inputRef={phoneRef}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('captcha')}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    inputRef={captchaRef}
+                />
+                {captchaData && <img src={captchaData} />}
             </DialogContent>
             <p>{msg}</p>
             <DialogActions>

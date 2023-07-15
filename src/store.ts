@@ -13,6 +13,8 @@ export function getDefaultSettings(): Settings {
     return {
         account: '',
         password: '',
+        apiNodeEndpoints: [''],
+        authorization: '',
         apiHost: 'https://api.openai.com',
         model: "gpt-3.5-turbo",
         temperature: 0.7,
@@ -24,6 +26,7 @@ export function getDefaultSettings(): Settings {
         theme: ThemeMode.System,
         language: 'en',
         fontSize: 13,
+        test: '',
     }
 }
 

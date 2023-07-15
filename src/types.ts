@@ -40,6 +40,8 @@ export function createSession(name: string = "Untitled"): Session {
 export interface Settings {
     account: string
     password: string
+    apiNodeEndpoints: [string]
+    authorization: string
     apiHost: string
     model: string
     maxContextSize: string
@@ -51,6 +53,7 @@ export interface Settings {
     theme: ThemeMode
     language: string
     fontSize: number
+    test: string
 }
 
 export const OpenAIRoleEnum = {
