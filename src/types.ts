@@ -40,7 +40,7 @@ export function createSession(name: string = "Untitled"): Session {
 export interface Settings {
     account: string
     password: string
-    apiNodeEndpoints: [string]
+    apiNodeEndpoints: string[]
     authorization: string
     apiHost: string
     model: string

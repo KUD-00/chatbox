@@ -245,6 +245,8 @@ function Main() {
         client.replay(
             store.settings.account,
             store.settings.password,
+            store.settings.authorization,
+            store.settings.apiNodeEndpoints,
             store.settings.apiHost,
             store.settings.maxContextSize,
             store.settings.maxTokens,
@@ -281,6 +283,8 @@ function Main() {
         await client.replay(
             store.settings.account,
             store.settings.password,
+            store.settings.authorization,
+            store.settings.apiNodeEndpoints,
             store.settings.apiHost,
             store.settings.maxContextSize,
             store.settings.maxTokens,
@@ -681,9 +685,19 @@ function Main() {
                     close={() => setOpenSettingWindow(false)}
                 />
 
-                <RegisterWindow open={openRegisterWindow} close={() => setOpenRegisterWindow(false)} login={() => {setOpenRegisterWindow(false); setOpenLoginWindow(true)}} />
+                <RegisterWindow
+                    open={openRegisterWindow}
+                    save={(settings) => {store.setSettings(settings)}}
+                    close={() => setOpenRegisterWindow(false)}
+                    login={() => {setOpenRegisterWindow(false); setOpenLoginWindow(true)}}
+                />
 
-                <LoginWindow open={openLoginWindow} close={() => setOpenLoginWindow(false)} register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}} />
+                <LoginWindow
+                    open={openLoginWindow}
+                    close={() => setOpenLoginWindow(false)}
+                    register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}}
+                    save={(settings) => {store.setSettings(settings)}}
+                />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
                     close={() => setOpenAboutWindow(false)}

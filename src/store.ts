@@ -13,7 +13,7 @@ export function getDefaultSettings(): Settings {
     return {
         account: '',
         password: '',
-        apiNodeEndpoints: [''],
+        apiNodeEndpoints: [],
         authorization: '',
         apiHost: 'https://api.openai.com',
         model: "gpt-3.5-turbo",

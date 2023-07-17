@@ -16,6 +16,7 @@ interface Props {
     open: boolean
     close(): void
     login(): void
+    save(settings: Settings): void
 }
 
 interface CaptchaResponse {
@@ -62,8 +63,8 @@ export default function RegisterWindow(props: Props) {
         const payload = {
             captcha: captchaRef.current?.value,
             captcha_id: captchaID,
-            email: emailRef.current?.value,
-            location: "China",
+            // email: emailRef.current?.value,
+            // location: "CN",
             mobile: phoneRef.current?.value,
             nickname: nicknameRef.current?.value,
             password: passwordRef.current?.value,
@@ -78,8 +79,7 @@ export default function RegisterWindow(props: Props) {
         });
         const data: RegisterResponse | RegisterErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
-            store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
-            store.setSettings({...store.settings, authorization: data.authorization})
+            props.save({...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints})
             setMsg('Register Success')
         } else {
             setMsg(data.error)

@@ -13,6 +13,7 @@ interface Props {
     open: boolean
     close(): void
     register(): void
+    save(settings: Settings): void
 }
 
 interface CaptchaResponse {
@@ -21,7 +22,7 @@ interface CaptchaResponse {
 }
 
 interface LoginResponse {
-    api_node_endpoints: [string],
+    api_node_endpoints: string[],
     authorization: string,
     expiration: string,
     user_balances: [
@@ -58,7 +59,7 @@ export default function LoginWindow(props: Props) {
         const payload = {
             captcha: captchaRef.current?.value,
             captcha_id: captchaID,
-            email: emailRef.current?.value,
+            // email: emailRef.current?.value,
             mobile: phoneRef.current?.value,
             password: passwordRef.current?.value,
         };
@@ -71,8 +72,9 @@ export default function LoginWindow(props: Props) {
         });
         const data: LoginResponse | LoginErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
-            store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
-            store.setSettings({...store.settings, authorization: data.authorization})
+            console.log(data.api_node_endpoints)
+            console.log(typeof(data.api_node_endpoints))
+            props.save({...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints})
             setMsg('Login Successful')
         } else {
             setMsg(data.error)

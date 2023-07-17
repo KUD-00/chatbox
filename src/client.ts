@@ -1,6 +1,7 @@
 import { Message } from './types';
 import * as wordCount from './utils';
 import { createParser } from 'eventsource-parser'
+import useStore from './store'
 
 export interface OnTextCallbackResult {
     // response content
@@ -12,6 +13,8 @@ export interface OnTextCallbackResult {
 export async function replay(
     account: string,
     password: string,
+    authorization: string,
+    apiNodeEndpoints: string[],
     host: string,
     maxContextSize: string,
     maxTokens: string,
@@ -56,15 +59,21 @@ export async function replay(
         controller.abort();
     };
 
+    // const store = useStore()
+
     let fullText = '';
     try {
         const messages = prompts.map(msg => ({ role: msg.role, content: msg.content }))
-        const response = await fetch(`${host}/v1/chat/completions`, {
+        console.log(authorization)
+        // const response = await fetch(`https://${apiNodeEndpoints[0]}/v1/chat/completions`, {
+        const response = await fetch(`https://bot100.app:7002/v1/chat/completions`, {
             method: 'POST',
             headers: {
-                // 'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authorization}`,
+                // 'Content-Type': 'application/json',
+                'X-Model-Code': modelName,
             },
+            mode: "no-cors",
             body: JSON.stringify({
                 messages,
                 model: modelName,
