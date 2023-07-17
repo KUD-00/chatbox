@@ -9,12 +9,10 @@ import useStore from './store'
 import { ThemeMode } from './theme/index';
 import { useThemeSwicher } from './theme/ThemeSwitcher';
 import { Trans, useTranslation } from 'react-i18next'
-import { handleSSE } from './client'
-
-const { useEffect } = React
 interface Props {
     open: boolean
     close(): void
+    register(): void
 }
 
 interface CaptchaResponse {
@@ -37,6 +35,10 @@ interface LoginResponse {
         }
     ],
     user_uuid: string
+}
+
+interface LoginErrorResponse {
+    error: string
 }
 
 export default function LoginWindow(props: Props) {
@@ -67,9 +69,14 @@ export default function LoginWindow(props: Props) {
             mode: 'cors',
             body: JSON.stringify(payload),
         });
-        const data: LoginResponse = await response.json()
-        store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
-        store.setSettings({...store.settings, authorization: data.authorization})
+        const data: LoginResponse | LoginErrorResponse = await response.json()
+        if ('api_node_endpoints' in data) {
+            store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
+            store.setSettings({...store.settings, authorization: data.authorization})
+            setMsg('Login Successful')
+        } else {
+            setMsg(data.error)
+        }
     }
 
     const onCaptcha = async () => {
@@ -127,13 +134,14 @@ export default function LoginWindow(props: Props) {
                     variant="outlined"
                     inputRef={captchaRef}
                 />
+                <Button onClick={onCaptcha}>{t('captcha')}</Button>
                 {captchaData && <img src={captchaData} />}
             </DialogContent>
             <p>{msg}</p>
             <DialogActions>
+                <Button onClick={props.register}>{t('register')}</Button>
                 <Button onClick={props.close}>{t('cancel')}</Button>
-                <Button onClick={onLogin}>{t('login')}</Button>
-                <Button onClick={onCaptcha}>{t('captcha')}</Button>
+                <Button onClick={onLogin}>{t('Ok')}</Button>
             </DialogActions>
         </Dialog>
         );

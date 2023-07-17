@@ -472,6 +472,21 @@ function Main() {
                                 </Typography>
                             </MenuItem>
 
+                            <MenuItem onClick={() => {
+                                setOpenLoginWindow(true)
+                            }}
+                                >
+                                <ListItemIcon>
+                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {t('login')}
+                                </ListItemText>
+                                <Typography variant="body2" color="text.secondary">
+                                    {/* ⌘N */}
+                                </Typography>
+                            </MenuItem>
+
                             <MenuItem onClick={() => setOpenAboutWindow(true)}>
                                 <ListItemIcon>
                                     <IconButton>
@@ -666,9 +681,9 @@ function Main() {
                     close={() => setOpenSettingWindow(false)}
                 />
 
-                <RegisterWindow open={openRegisterWindow} close={() => setOpenRegisterWindow(false)}/>
+                <RegisterWindow open={openRegisterWindow} close={() => setOpenRegisterWindow(false)} login={() => {setOpenRegisterWindow(false); setOpenLoginWindow(true)}} />
 
-                <LoginWindow open={openLoginWindow} close={() => setOpenLoginWindow(false)} />
+                <LoginWindow open={openLoginWindow} close={() => setOpenLoginWindow(false)} register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}} />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
                     close={() => setOpenAboutWindow(false)}

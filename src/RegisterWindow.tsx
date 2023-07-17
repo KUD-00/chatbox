@@ -15,6 +15,7 @@ const { useEffect } = React
 interface Props {
     open: boolean
     close(): void
+    login(): void
 }
 
 interface CaptchaResponse {
@@ -37,6 +38,10 @@ interface RegisterResponse {
         }
     ],
     user_uuid: string
+}
+
+interface RegisterErrorResponse {
+    error: string
 }
 
 export default function RegisterWindow(props: Props) {
@@ -71,9 +76,14 @@ export default function RegisterWindow(props: Props) {
             mode: 'cors',
             body: JSON.stringify(payload),
         });
-        const data: RegisterResponse = await response.json()
-        store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
-        store.setSettings({...store.settings, authorization: data.authorization})
+        const data: RegisterResponse | RegisterErrorResponse = await response.json()
+        if ('api_node_endpoints' in data) {
+            store.setSettings({...store.settings, apiNodeEndpoints: data.api_node_endpoints})
+            store.setSettings({...store.settings, authorization: data.authorization})
+            setMsg('Register Success')
+        } else {
+            setMsg(data.error)
+        }
     }
 
     const onCaptcha = async () => {
@@ -140,13 +150,14 @@ export default function RegisterWindow(props: Props) {
                     variant="outlined"
                     inputRef={captchaRef}
                 />
+                <Button onClick={onCaptcha}>{t('captcha')}</Button>
                 {captchaData && <img src={captchaData} />}
             </DialogContent>
             <p>{msg}</p>
             <DialogActions>
+                <Button onClick={props.login}>{t('login')}</Button>
                 <Button onClick={props.close}>{t('cancel')}</Button>
-                <Button onClick={onRegister}>{t('register')}</Button>
-                <Button onClick={onCaptcha}>{t('captcha')}</Button>
+                <Button onClick={onRegister}>{t('OK')}</Button>
             </DialogActions>
         </Dialog>
     );
