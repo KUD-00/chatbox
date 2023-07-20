@@ -73,6 +73,7 @@ export default function RegisterWindow(props: Props) {
         const response = await fetch("https://bot100.app:7001/api/v1/users", {
             method: 'POST',
             headers: {
+                //'Content-Type': 'application/json',
             },
             mode: 'cors',
             body: JSON.stringify(payload),
@@ -90,6 +91,7 @@ export default function RegisterWindow(props: Props) {
         const response = await fetch(`https://bot100.app:7001/api/v1/captcha`, {
             method: 'GET',
             headers: {
+                //'Content-Type': 'application/json',
             },
             mode: 'cors',
         })

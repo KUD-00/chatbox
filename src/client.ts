@@ -70,8 +70,8 @@ export async function replay(
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${authorization}`,
-                // 'Content-Type': 'application/json',
-                'X-Model-Code': modelName,
+                'Content-Type': 'application/json',
+                'X-Model-Code': modelName
             },
             mode: "no-cors",
             body: JSON.stringify({

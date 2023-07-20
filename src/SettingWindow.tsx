@@ -31,8 +31,6 @@ interface Props {
     open: boolean
     settings: Settings
     close(): void
-    register(): void
-    login(): void
     save(settings: Settings): void
 }
 
@@ -122,9 +120,6 @@ export default function SettingWindow(props: Props) {
         <Dialog open={props.open} onClose={onCancel} fullWidth >
             <DialogTitle>{t('settings')}</DialogTitle>
             <DialogContent>
-                <Button onClick={props.register}>{t('register')}</Button>
-                <Button onClick={props.login}>{t('login')}</Button>
-                <Button onClick={onLogout}>{t('logout')}</Button>
                 <FormControl fullWidth variant="outlined" margin="dense">
                     <InputLabel htmlFor="language-select">{t('language')}</InputLabel>
                     <Select
