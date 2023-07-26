@@ -11,7 +11,6 @@ import { useThemeSwicher } from './theme/ThemeSwitcher';
 import { Trans, useTranslation } from 'react-i18next'
 import { handleSSE } from './client'
 
-const { useEffect } = React
 interface Props {
     open: boolean
     close(): void

@@ -48,10 +48,11 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableItem } from './SortableItem';
 import RegisterWindow from './RegisterWindow';
-import LoginWindow from "./LoginWindow";
+import LoginWindow from './LoginWindow';
+import CreditWindow from './CreditWindow';
 
 function Main() {
     const { t } = useTranslation()
@@ -98,10 +99,9 @@ function Main() {
     // 是否展示相关信息的窗口
     const [openAboutWindow, setOpenAboutWindow] = React.useState(false);
 
-    // Login Window
     const [openLoginWindow, setOpenLoginWindow] = React.useState(false);
-    // Register Window
     const [openRegisterWindow, setOpenRegisterWindow] = React.useState(false);
+    const [openCreditWindow, setOpenCreditWindow] = React.useState(false);
 
     // 是否展示菜单栏
     const theme = useTheme();
@@ -491,6 +491,21 @@ function Main() {
                                 </Typography>
                             </MenuItem>
 
+                            <MenuItem onClick={() => {
+                                setOpenCreditWindow(true)
+                            }}
+                                >
+                                <ListItemIcon>
+                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {t('credit')}
+                                </ListItemText>
+                                <Typography variant="body2" color="text.secondary">
+                                    {/* ⌘N */}
+                                </Typography>
+                            </MenuItem>
+
                             <MenuItem onClick={() => setOpenAboutWindow(true)}>
                                 <ListItemIcon>
                                     <IconButton>
@@ -697,6 +712,11 @@ function Main() {
                     close={() => setOpenLoginWindow(false)}
                     register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}}
                     save={(settings) => {store.setSettings(settings)}}
+                />
+
+                <CreditWindow
+                    open={openCreditWindow}
+                    close={() => setOpenCreditWindow(false)}
                 />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
