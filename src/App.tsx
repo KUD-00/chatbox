@@ -53,6 +53,8 @@ import { SortableItem } from './SortableItem';
 import RegisterWindow from './RegisterWindow';
 import LoginWindow from './LoginWindow';
 import CreditWindow from './CreditWindow';
+import BillingWindow from './BillingWindow'
+import { LLM } from './types'
 
 function Main() {
     const { t } = useTranslation()
@@ -102,6 +104,8 @@ function Main() {
     const [openLoginWindow, setOpenLoginWindow] = React.useState(false);
     const [openRegisterWindow, setOpenRegisterWindow] = React.useState(false);
     const [openCreditWindow, setOpenCreditWindow] = React.useState(false);
+    const [openBillingWindow, setOpenBillingWindow] = React.useState(false);
+    const [LLM, setLLM] = React.useState<LLM | null>(null)
 
     // 是否展示菜单栏
     const theme = useTheme();
@@ -717,6 +721,12 @@ function Main() {
                 <CreditWindow
                     open={openCreditWindow}
                     close={() => setOpenCreditWindow(false)}
+                    billing={(llm) => {setLLM(llm); setOpenBillingWindow(true)}}
+                />
+
+                <BillingWindow
+                    open={openBillingWindow}
+                    close={() => setOpenBillingWindow(false)}
                 />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}

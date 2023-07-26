@@ -17,12 +17,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
 import { LLM } from './types'
 
 interface Props {
     open: boolean
     close(): void
-    billing: (llm: LLM) => void
 }
 
 const columns = [
@@ -31,37 +31,10 @@ const columns = [
     "Actions"
 ]
 
-const rows = [
-
-]
-
 const llms: LLM[] = [
     {
         name: "gpt-4-32K",
         description: "gpt4 with 32K tokens",
-        credits: () => {return "200"},
-        action: () => {},
-        price: {
-            "100": 7,
-            "350": 20,
-            "800": 40,
-        }
-    },
-    {
-        name: "gpt-4",
-        description: "gpt4 with 8K tokens",
-        credits: () => {return "200"},
-        action: () => {}
-    },
-    {
-        name: "gpt-3.5-turbo",
-        description: "gpt3.5 with 4K tokens",
-        credits: () => {return "200"},
-        action: () => {}
-    },
-    {
-        name: "gpt-3.5-16K",
-        description: "gpt4 with 16K tokens",
         credits: () => {return "200"},
         action: () => {}
     }

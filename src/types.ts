@@ -56,6 +56,14 @@ export interface Settings {
     test: string
 }
 
+export interface LLM {
+    name: string
+    description: string
+    credits: () => string
+    action: () => void
+    price: {[key: string]: number;}
+}
+
 export const OpenAIRoleEnum = {
     System: 'system',
     User: 'user',
