@@ -66,15 +66,16 @@ export default function LoginWindow(props: Props) {
         const response = await fetch("https://bot100.app:7001/api/v1/users/login", {
             method: 'POST',
             headers: {
-                },
+                'Content-Type': 'application/json',
+            },
             mode: 'cors',
             body: JSON.stringify(payload),
         });
         const data: LoginResponse | LoginErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
             console.log(data.api_node_endpoints)
-            console.log(typeof(data.api_node_endpoints))
-            props.save({...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints})
+            console.log(typeof (data.api_node_endpoints))
+            props.save({ ...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
             setMsg('Login Successful')
         } else {
             setMsg(data.error)
@@ -85,7 +86,7 @@ export default function LoginWindow(props: Props) {
         const response = await fetch(`https://bot100.app:7001/api/v1/captcha`, {
             method: 'GET',
             headers: {
-                },
+            },
             mode: 'cors',
         })
         const data: CaptchaResponse = await response.json()
@@ -103,11 +104,11 @@ export default function LoginWindow(props: Props) {
                 <TextField
                     autoFocus
                     margin="dense"
-                    label={t('email')}
+                    label={t('phone number')}
                     type="text"
                     fullWidth
                     variant="outlined"
-                    inputRef={emailRef}
+                    inputRef={phoneRef}
                 />
                 <TextField
                     autoFocus
@@ -117,15 +118,6 @@ export default function LoginWindow(props: Props) {
                     fullWidth
                     variant="outlined"
                     inputRef={passwordRef}
-                />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    label={t('phone number')}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    inputRef={phoneRef}
                 />
                 <TextField
                     autoFocus
@@ -146,5 +138,5 @@ export default function LoginWindow(props: Props) {
                 <Button onClick={onLogin}>{t('Ok')}</Button>
             </DialogActions>
         </Dialog>
-        );
+    );
 }
