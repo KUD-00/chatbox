@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Button, Alert, Chip,
     Dialog, DialogContent, DialogActions, DialogTitle, TextField,
@@ -18,7 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { LLM } from './types'
+import { LLM, ProductsResponse, ProductsErrorResponse } from './types'
 
 interface Props {
     open: boolean
@@ -31,20 +31,43 @@ const columns = [
     "Actions"
 ]
 
-const llms: LLM[] = [
-    {
-        name: "gpt-4-32K",
-        description: "gpt4 with 32K tokens",
-        credits: () => {return "200"},
-        action: () => {}
-    }
-]
+export interface Products {
+    product_id: number,
+    name: string,
+    description: string,
+    unit_price: number,
+}
 
-export default function CreditsWindow(props: Props) {
+export default function BillingWindow(props: Props) {
     const { t } = useTranslation()
     const [, { setMode }] = useThemeSwicher();
+    const [products, setProducts] = useState<Products[] | null>(null)
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch("https://bot100.app:7001/api/v1/products", {
+                method: 'GET',
+                headers: {},
+                mode: 'cors',
+            });
+            const data: ProductsResponse | ProductsErrorResponse = await response.json()
+            if ('products' in data) {
+                let products: Products[] = []
+                data.products.map((product) => {
+                    products.push({
+                        product_id: product.id,
+                        name: product.name,
+                        description: product.desc,
+                        unit_price: product.unit_price,
+                    })
+                })
+                setProducts(products)
+            } else {
+                // do some error handling here
+            }
+        }
+        fetchData()
+    },[])
     const store = useStore()
     // @ts-ignore
     // @ts-ignore
@@ -62,11 +85,11 @@ export default function CreditsWindow(props: Props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Array.from({ length: 4 }).map((_, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>Row {index + 1}, Data 1</TableCell>
-                                    <TableCell>Row {index + 1}, Data 2</TableCell>
-                                    <TableCell>Row {index + 1}, Data 3</TableCell>
+                            {products?.map((product) => (
+                                <TableRow key={product.product_id}>
+                                    <TableCell>{product.name}</TableCell>
+                                    <TableCell>{product.unit_price}</TableCell>
+                                    <TableCell><Button>charge</Button></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

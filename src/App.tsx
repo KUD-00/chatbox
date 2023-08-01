@@ -699,8 +699,6 @@ function Main() {
                             store.addToast(t('font size changed, effective after next launch'))
                         }
                     }}
-                    register={() => {setOpenRegisterWindow(true)}}
-                    login={() => {setOpenLoginWindow(true)}}
                     close={() => setOpenSettingWindow(false)}
                 />
 
@@ -721,7 +719,6 @@ function Main() {
                 <CreditWindow
                     open={openCreditWindow}
                     close={() => setOpenCreditWindow(false)}
-                    billing={(llm) => {setLLM(llm); setOpenBillingWindow(true)}}
                 />
 
                 <BillingWindow

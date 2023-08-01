@@ -95,3 +95,69 @@ export interface SponsorAboutBanner {
     title: string
     description: string
 }
+
+// API return types
+
+export interface ProductsResponse {
+        products: [
+            {
+                charge_unit: number,
+                chat_num: number,
+                code: string,
+                createdAt: string,
+                currency: string,
+                deletedAt: string,
+                desc: string,
+                id: number,
+                img_id: number,
+                llm_model: {
+                    api_keys: [
+                        {
+                            "account": string,
+                            "amount_quota": number,
+                            "api_base": string,
+                            "api_key": string,
+                            "api_secret": string,
+                            "api_type": string,
+                            "api_version": string,
+                            "createdAt": string,
+                            "deletedAt": string,
+                            "holder": string,
+                            "id": number,
+                            "llm_model_id": number,
+                            "memo": string,
+                            "password": string,
+                            "updatedAt": string,
+                            "url_scheme": string,
+                            "used": number
+                        }
+                    ],
+                    "api_provider_id": number,
+                    "code": string,
+                    "createdAt": string,
+                    "deletedAt": string,
+                    "desc": string,
+                    "free_points": number,
+                    "free_points_frequency": number,
+                    "id": number,
+                    "init_points": number,
+                    "name": string,
+                    "req_token_price": number,
+                    "resp_token_price": number,
+                    "status": number,
+                    "token_unit": number,
+                    "updatedAt": string
+                },
+                "llm_model_id": number,
+                "name": string,
+                "status": number,
+                "thumbs_id": number,
+                "unit_price": number,
+                "updatedAt": string
+            }
+        ]
+}
+
+export interface ProductsErrorResponse {
+    error: string
+}
