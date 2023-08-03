@@ -23,6 +23,7 @@ import { LLM, ProductsResponse, ProductsErrorResponse } from './types'
 interface Props {
     open: boolean
     close(): void
+    productID: number
 }
 
 const columns = [
@@ -38,10 +39,35 @@ export interface Products {
     unit_price: number,
 }
 
+export interface OrderPostRequest {
+  coupon_code: string,
+  memo: string,
+  product_id: number,
+  quantity: number,
+  return_url: string
+}
+
+export interface OrderPostResponse {
+  amount: 0,
+  client_secret: string,
+  coupon_amount: number,
+  coupon_code: string,
+  coupon_discount: number,
+  coupon_name: string,
+  coupon_type: number,
+  created_at: string,
+  currency: string,
+  id: string,
+  invoice_id: string,
+  order_no: string,
+  original_amount: number,
+  request_id: string
+}
+
 export default function BillingWindow(props: Props) {
     const { t } = useTranslation()
     const [, { setMode }] = useThemeSwicher();
-    const [products, setProducts] = useState<Products[] | null>(null)
+    const amountRef = React.useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,48 +79,27 @@ export default function BillingWindow(props: Props) {
             const data: ProductsResponse | ProductsErrorResponse = await response.json()
             if ('products' in data) {
                 let products: Products[] = []
-                data.products.map((product) => {
-                    products.push({
-                        product_id: product.id,
-                        name: product.name,
-                        description: product.desc,
-                        unit_price: product.unit_price,
-                    })
-                })
-                setProducts(products)
             } else {
                 // do some error handling here
             }
         }
         fetchData()
     },[])
-    const store = useStore()
     // @ts-ignore
     // @ts-ignore
     return (
         <Dialog open={props.open} fullWidth >
-            <DialogTitle>{t('credits')}</DialogTitle>
+            <DialogTitle>{t('amount')}</DialogTitle>
             <DialogContent>
-                <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => {
-                                    return (<TableCell>{column}</TableCell>)
-                                })}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {products?.map((product) => (
-                                <TableRow key={product.product_id}>
-                                    <TableCell>{product.name}</TableCell>
-                                    <TableCell>{product.unit_price}</TableCell>
-                                    <TableCell><Button>charge</Button></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('captcha')}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    inputRef={amountRef}
+                />
                 <DialogActions>
                     <Button onClick={props.close}>{t('cancel')}</Button>
                 </DialogActions>

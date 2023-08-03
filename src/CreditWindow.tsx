@@ -23,6 +23,7 @@ import { LLM, ProductsResponse, ProductsErrorResponse } from './types'
 interface Props {
     open: boolean
     close(): void
+    bill: (productID: number) => void
 }
 
 const columns = [
@@ -90,7 +91,7 @@ export default function CreditsWindow(props: Props) {
                                 <TableRow key={product.product_id}>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.unit_price}</TableCell>
-                                    <TableCell><Button>charge</Button></TableCell>
+                                    <TableCell><Button onClick={props.bill(product.product_id)}>charge</Button></TableCell>
                                 </TableRow>
                                 ))}
                         </TableBody>

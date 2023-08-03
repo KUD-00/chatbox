@@ -105,7 +105,7 @@ function Main() {
     const [openRegisterWindow, setOpenRegisterWindow] = React.useState(false);
     const [openCreditWindow, setOpenCreditWindow] = React.useState(false);
     const [openBillingWindow, setOpenBillingWindow] = React.useState(false);
-    const [LLM, setLLM] = React.useState<LLM | null>(null)
+    const [productID, setProductID] = React.useState(0);
 
     // 是否展示菜单栏
     const theme = useTheme();
@@ -719,11 +719,13 @@ function Main() {
                 <CreditWindow
                     open={openCreditWindow}
                     close={() => setOpenCreditWindow(false)}
+                    bill={(productID) => {setProductID(productID); setOpenBillingWindow(true)}}
                 />
 
                 <BillingWindow
                     open={openBillingWindow}
                     close={() => setOpenBillingWindow(false)}
+                    productID={productID}
                 />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
