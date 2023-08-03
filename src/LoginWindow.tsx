@@ -9,11 +9,17 @@ import useStore from './store'
 import { ThemeMode } from './theme/index';
 import { useThemeSwicher } from './theme/ThemeSwitcher';
 import { Trans, useTranslation } from 'react-i18next'
+
+interface LoginSettings {
+    authorization: string,
+    apiNodeEndpoints: string[]
+}
+
 interface Props {
     open: boolean
     close(): void
     register(): void
-    save(settings: Settings): void
+    save(settings:LoginSettings): void
 }
 
 interface CaptchaResponse {
@@ -53,8 +59,6 @@ export default function LoginWindow(props: Props) {
     const captchaRef = React.useRef<HTMLInputElement>(null)
     const phoneRef = React.useRef<HTMLInputElement>(null)
 
-    const store = useStore()
-
     const onLogin = async () => {
         const payload = {
             captcha: captchaRef.current?.value,
@@ -73,9 +77,8 @@ export default function LoginWindow(props: Props) {
         });
         const data: LoginResponse | LoginErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
-            console.log(data.api_node_endpoints)
-            console.log(typeof (data.api_node_endpoints))
-            props.save({ ...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
+            console.log(data)
+            props.save({ authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
             setMsg('Login Successful')
         } else {
             setMsg(data.error)
@@ -92,7 +95,6 @@ export default function LoginWindow(props: Props) {
         const data: CaptchaResponse = await response.json()
         setCaptchaData(data.captcha)
         setCaptchaID(data.captcha_id)
-        console.log(store.settings)
     }
 
     // @ts-ignore

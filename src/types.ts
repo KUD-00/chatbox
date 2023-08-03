@@ -108,7 +108,7 @@ export interface ProductsResponse {
                 currency: string,
                 deletedAt: string,
                 desc: string,
-                id: number,
+                ID: number,
                 img_id: number,
                 llm_model: {
                     api_keys: [

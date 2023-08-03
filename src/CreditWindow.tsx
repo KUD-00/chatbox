@@ -56,7 +56,7 @@ export default function CreditsWindow(props: Props) {
                 let products: Products[] = []
                 data.products.map((product) => {
                     products.push({
-                        product_id: product.id,
+                        product_id: product.ID,
                         name: product.name,
                         description: product.desc,
                         unit_price: product.unit_price,
@@ -91,7 +91,7 @@ export default function CreditsWindow(props: Props) {
                                 <TableRow key={product.product_id}>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.unit_price}</TableCell>
-                                    <TableCell><Button onClick={props.bill(product.product_id)}>charge</Button></TableCell>
+                                    <TableCell><Button onClick={() => props.bill(product.product_id)}>charge</Button></TableCell>
                                 </TableRow>
                                 ))}
                         </TableBody>

@@ -713,7 +713,7 @@ function Main() {
                     open={openLoginWindow}
                     close={() => setOpenLoginWindow(false)}
                     register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}}
-                    save={(settings) => {store.setSettings(settings)}}
+                    save={(settings) => {store.setSettings({...store.settings, ...settings})}}
                 />
 
                 <CreditWindow
@@ -726,6 +726,7 @@ function Main() {
                     open={openBillingWindow}
                     close={() => setOpenBillingWindow(false)}
                     productID={productID}
+                    auth={store.settings.authorization}
                 />
 
                 <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
