@@ -65,15 +65,14 @@ export async function replay(
     try {
         const messages = prompts.map(msg => ({ role: msg.role, content: msg.content }))
         console.log(authorization)
-        // const response = await fetch(`https://${apiNodeEndpoints[0]}/v1/chat/completions`, {
-        const response = await fetch(`https://bot100.app:7002/v1/chat/completions`, {
+        const response = await fetch(`https://${apiNodeEndpoints[0]}:7002/v1/chat/completions`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${authorization}`,
                 'Content-Type': 'application/json',
-                'X-Model-Code': modelName
+                //'X-Model-Code': modelName
             },
-            mode: "no-cors",
+            //mode: "no-cors",
             body: JSON.stringify({
                 messages,
                 model: modelName,

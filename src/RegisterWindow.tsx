@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Button, Alert, Chip,
     Dialog, DialogContent, DialogActions, DialogTitle, TextField,
@@ -53,12 +53,28 @@ export default function RegisterWindow(props: Props) {
     const emailRef = React.useRef<HTMLInputElement>(null)
     const nicknameRef = React.useRef<HTMLInputElement>(null)
     const passwordRef = React.useRef<HTMLInputElement>(null)
+    const passwordConfirmRef = React.useRef<HTMLInputElement>(null)
     const captchaRef = React.useRef<HTMLInputElement>(null)
     const phoneRef = React.useRef<HTMLInputElement>(null)
 
     const store = useStore()
 
+    useEffect(() => {
+        onCaptcha
+    }, [])
+
     const onRegister = async () => {
+        if (passwordRef.current?.value != passwordConfirmRef.current?.value) {
+            setMsg('password confirm error');
+            return;
+        }
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const pv = passwordRef.current?passwordRef.current.value:'';
+        if (!passwordRegex.test(pv)) {
+            //setMsg(t('password format error'));
+            setMsg('password format error');
+            return;
+        }
         const payload = {
             captcha: captchaRef.current?.value,
             captcha_id: captchaID,
@@ -132,6 +148,15 @@ export default function RegisterWindow(props: Props) {
                     fullWidth
                     variant="outlined"
                     inputRef={passwordRef}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    label={t('password confirm')}
+                    type="password"
+                    fullWidth
+                    variant="outlined"
+                    inputRef={passwordConfirmRef}
                 />
                 <TextField
                     autoFocus

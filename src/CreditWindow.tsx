@@ -28,7 +28,7 @@ interface Props {
 
 const columns = [
     "Language Models",
-    "Credits",
+    "Price",
     "Actions"
 ]
 
@@ -75,14 +75,14 @@ export default function CreditsWindow(props: Props) {
     // @ts-ignore
     return (
         <Dialog open={props.open} fullWidth >
-            <DialogTitle>{t('credits')}</DialogTitle>
+            <DialogTitle>{t('Credits')}</DialogTitle>
             <DialogContent>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => {
-                                    return (<TableCell>{column}</TableCell>)
+                                    return (<TableCell>{t(column)}</TableCell>)
                                 })}
                             </TableRow>
                         </TableHead>
@@ -91,7 +91,7 @@ export default function CreditsWindow(props: Props) {
                                 <TableRow key={product.product_id}>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.unit_price}</TableCell>
-                                    <TableCell><Button onClick={() => props.bill(product.product_id)}>charge</Button></TableCell>
+                                    <TableCell><Button onClick={() => props.bill(product.product_id)}>{t('Charge')}</Button></TableCell>
                                 </TableRow>
                                 ))}
                         </TableBody>

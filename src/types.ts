@@ -23,7 +23,7 @@ export function createMessage(role: OpenAIRoleEnumType = OpenAIRoleEnum.User, co
     }
 }
 
-export function createSession(name: string = "Untitled"): Session {
+export function createSession(name: string = 'Untitled'): Session {
     return {
         id: uuidv4(),
         name: name,

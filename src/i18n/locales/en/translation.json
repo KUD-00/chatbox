@@ -62,6 +62,20 @@
   "meticulous": "Meticulous",
   "creative": "Creative",
   "Special thanks to the following sponsors:": "Special thanks to the following sponsors:",
-  "register":"Register",
-  "login":"Login"
+  "Chatbox":"Bot100",
+  "Untitled":"Untitled",
+  "register": "Register",
+  "email":"Email",
+  "nickname":"Nickname",
+  "phone number":"Phone No",
+  "login": "Login",
+  "login id":"ID",
+  "password": "password",
+  "password confirm": "password confirm",
+  "password format error": "Password format error",
+  "Credits": "Credits",
+  "Language Models": "Language Models",
+  "Price": "Price",
+  "Actions": "Actions",
+  "Charge": "Charge"
 }

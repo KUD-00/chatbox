@@ -62,6 +62,20 @@
   "meticulous": "严谨细致",
   "creative": "想象发散",
   "Special thanks to the following sponsors:": "特别鸣谢以下品牌的赞助:",
+  "Chatbox":"Bot100",
+  "Untitled":"新对话",
   "register":"注册",
-  "login":"登录"
+  "email":"邮箱地址",
+  "nickname":"昵称",
+  "phone number":"手机号码",
+  "login":"登录",
+  "login id":"ID",
+  "password":"密码",
+  "password confirm":"密码确认",
+  "password format error":"密码长度至少为 8 位，包含大小写字母和至少一个特殊符号",
+  "Credits":"点数",
+  "Language Models":"模型",
+  "Price":"单价",
+  "Actions":"操作",
+  "Charge": "充值"
 }

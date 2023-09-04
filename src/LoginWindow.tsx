@@ -79,7 +79,7 @@ export default function LoginWindow(props: Props) {
         if ('api_node_endpoints' in data) {
             console.log(data)
             props.save({ authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
-            setMsg('Login Successful')
+            //setMsg('Login Successful')
         } else {
             setMsg(data.error)
         }
@@ -106,7 +106,7 @@ export default function LoginWindow(props: Props) {
                 <TextField
                     autoFocus
                     margin="dense"
-                    label={t('phone number')}
+                    label={t('login id')}
                     type="text"
                     fullWidth
                     variant="outlined"

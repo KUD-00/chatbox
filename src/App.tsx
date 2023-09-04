@@ -205,7 +205,7 @@ function Main() {
             store.currentSession.name === 'Untitled'
             && store.currentSession.messages.findIndex(msg => msg.role === 'assistant') !== -1
         ) {
-            generateName(store.currentSession)
+            //generateName(store.currentSession)
         }
     }, [store.currentSession.messages])
 
@@ -390,9 +390,10 @@ function Main() {
                                 width: '35px',
                                 height: '35px',
                                 marginRight: '5px',
+                                display: 'none'
                             }} />
                             <Typography variant="h5" color="inherit" component="div" style={{fontSize: '26px'}}>
-                                Chatbox
+                                {t('Chatbox')}
                             </Typography>
                         </Toolbar>
 
@@ -503,7 +504,7 @@ function Main() {
                                     <IconButton><SettingsIcon fontSize="small" /></IconButton>
                                 </ListItemIcon>
                                 <ListItemText>
-                                    {t('credit')}
+                                    {t('Credits')}
                                 </ListItemText>
                                 <Typography variant="body2" color="text.secondary">
                                     {/* ⌘N */}
@@ -713,7 +714,7 @@ function Main() {
                     open={openLoginWindow}
                     close={() => setOpenLoginWindow(false)}
                     register={() => {setOpenLoginWindow(false); setOpenRegisterWindow(true)}}
-                    save={(settings) => {store.setSettings({...store.settings, ...settings})}}
+                    save={(settings) => {store.setSettings({...store.settings, ...settings});setOpenLoginWindow(false)}}
                 />
 
                 <CreditWindow
