@@ -60,7 +60,7 @@ export default function RegisterWindow(props: Props) {
     const store = useStore()
 
     useEffect(() => {
-        onCaptcha
+        onCaptcha()
     }, [])
 
     const onRegister = async () => {
@@ -69,7 +69,7 @@ export default function RegisterWindow(props: Props) {
             return;
         }
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        const pv = passwordRef.current?passwordRef.current.value:'';
+        const pv = passwordRef.current ? passwordRef.current.value : '';
         if (!passwordRegex.test(pv)) {
             //setMsg(t('password format error'));
             setMsg('password format error');
@@ -95,7 +95,7 @@ export default function RegisterWindow(props: Props) {
         });
         const data: RegisterResponse | RegisterErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
-            props.save({...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints})
+            props.save({ ...store.settings, authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
             setMsg('Register Success')
         } else {
             setMsg(data.error)
@@ -158,7 +158,7 @@ export default function RegisterWindow(props: Props) {
                     variant="outlined"
                     inputRef={passwordConfirmRef}
                 />
-                <TextField
+                <TextField style={{display:'none'}}
                     autoFocus
                     margin="dense"
                     label={t('phone number')}
@@ -176,12 +176,12 @@ export default function RegisterWindow(props: Props) {
                     variant="outlined"
                     inputRef={captchaRef}
                 />
-                <Button onClick={onCaptcha}>{t('captcha')}</Button>
                 {captchaData && <img src={captchaData} />}
+                <Button onClick={onCaptcha}>{t('refresh captcha')}</Button>
             </DialogContent>
-            <p>{msg}</p>
+            <p style={{ padding: '0 24px' }}>{msg}</p>
             <DialogActions>
-                <Button onClick={props.login}>{t('login')}</Button>
+                <Button style={{display:'none'}} onClick={props.login}>{t('login')}</Button>
                 <Button onClick={props.close}>{t('cancel')}</Button>
                 <Button onClick={onRegister}>{t('OK')}</Button>
             </DialogActions>

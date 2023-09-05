@@ -121,7 +121,7 @@ export default function LoginWindow(props: Props) {
                     variant="outlined"
                     inputRef={passwordRef}
                 />
-                <TextField
+                <TextField style={{display:'none'}}
                     autoFocus
                     margin="dense"
                     label={t('captcha')}
@@ -130,10 +130,10 @@ export default function LoginWindow(props: Props) {
                     variant="outlined"
                     inputRef={captchaRef}
                 />
-                <Button onClick={onCaptcha}>{t('captcha')}</Button>
+                <Button style={{display:'none'}} onClick={onCaptcha}>{t('captcha')}</Button>
                 {captchaData && <img src={captchaData} />}
             </DialogContent>
-            <p>{msg}</p>
+            <p style={{ padding: '0 24px' }}>{msg}</p>
             <DialogActions>
                 <Button onClick={props.register}>{t('register')}</Button>
                 <Button onClick={props.close}>{t('cancel')}</Button>

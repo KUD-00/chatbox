@@ -283,6 +283,10 @@ function Main() {
     }
 
     const generate = async (session: Session, promptMsgs: Message[], targetMsg: Message) => {
+        if (store.settings.authorization == '') {
+            setOpenLoginWindow(true)
+            return
+        }
         messageScrollRef.current = { msgId: targetMsg.id, smooth: false }
         await client.replay(
             store.settings.account,
@@ -511,7 +515,7 @@ function Main() {
                                 </Typography>
                             </MenuItem>
 
-                            <MenuItem onClick={() => setOpenAboutWindow(true)}>
+                            <MenuItem style={{display:'none'}} onClick={() => setOpenAboutWindow(true)}>
                                 <ListItemIcon>
                                     <IconButton>
                                         <InfoOutlinedIcon fontSize="small" />
