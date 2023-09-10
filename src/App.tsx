@@ -142,6 +142,15 @@ function Main() {
             inline: 'nearest',
         })
     })
+
+    useEffect(() => {
+        // this is not perfectly working now. langcode is really a mess to if-else
+        const langcode = navigator.language.split('-')[0]
+        if (store.settings.language != langcode) {
+            store.setSettings({ ...store.settings, language: langcode});
+        }
+    }, []); 
+
     // stop auto-scroll when user scroll
     useEffect(() => {
         if (!messageListRef.current) {

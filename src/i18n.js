@@ -13,6 +13,9 @@ const resources = {
   'zh-Hant': {
     translation: zhHant,
   },
+  'zh': {
+    translation: zhHans,
+  },
   'en': {
     translation: en,
   },
