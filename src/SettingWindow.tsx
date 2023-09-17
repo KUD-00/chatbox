@@ -172,7 +172,7 @@ export default function SettingWindow(props: Props) {
                         onChange={(e, checked) => setSettingsEdit({ ...settingsEdit, showTokenCount: checked })}
                     />
                 </FormGroup>
-                <Accordion>
+                <Accordion style={{display:'none'}}>
                     <AccordionSummary aria-controls="panel1a-content">
                         <Typography>{t('proxy')}</Typography>
                     </AccordionSummary>
@@ -218,7 +218,7 @@ export default function SettingWindow(props: Props) {
 
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                <Accordion style={{display:'none'}}>
                     <AccordionSummary
                         aria-controls="panel1a-content"
                     >

@@ -13,6 +13,8 @@ import useStore from './store'
 import SettingWindow from './SettingWindow'
 import ChatConfigWindow from './ChatConfigWindow'
 import SettingsIcon from '@mui/icons-material/Settings';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import AddIcon from '@mui/icons-material/Add';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import * as prompts from './prompts';
@@ -402,10 +404,10 @@ function Main() {
                             <img src={icon} style={{
                                 width: '35px',
                                 height: '35px',
-                                marginRight: '5px',
-                                display: 'none'
+                                marginRight: '10px',
+                                marginLeft: '-16px'
                             }} />
-                            <Typography variant="h5" color="inherit" component="div" style={{fontSize: '26px'}}>
+                            <Typography variant="h5" color="inherit" component="div" style={{fontSize: '20px'}}>
                                 {t('Chatbox')}
                             </Typography>
                         </Toolbar>
@@ -479,30 +481,16 @@ function Main() {
                                     {/* ⌘N */}
                                 </Typography>
                             </MenuItem>
-                            <MenuItem onClick={() => {
-                                setOpenSettingWindow(true)
-                            }}
-                            >
-                                <ListItemIcon>
-                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
-                                </ListItemIcon>
-                                <ListItemText>
-                                    {t('settings')}
-                                </ListItemText>
-                                <Typography variant="body2" color="text.secondary">
-                                    {/* ⌘N */}
-                                </Typography>
-                            </MenuItem>
 
                             <MenuItem onClick={() => {
                                 setOpenLoginWindow(true)
                             }}
                                 >
                                 <ListItemIcon>
-                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
+                                    <IconButton><PersonOutlineIcon fontSize="small" /></IconButton>
                                 </ListItemIcon>
                                 <ListItemText>
-                                    {t('login')}
+                                    {store.settings.account == ''?t('login'):store.settings.account}
                                 </ListItemText>
                                 <Typography variant="body2" color="text.secondary">
                                     {/* ⌘N */}
@@ -514,10 +502,25 @@ function Main() {
                             }}
                                 >
                                 <ListItemIcon>
-                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
+                                    <IconButton><CardGiftcardIcon fontSize="small" /></IconButton>
                                 </ListItemIcon>
                                 <ListItemText>
                                     {t('Credits')}
+                                </ListItemText>
+                                <Typography variant="body2" color="text.secondary">
+                                    {/* ⌘N */}
+                                </Typography>
+                            </MenuItem>
+
+                            <MenuItem onClick={() => {
+                                setOpenSettingWindow(true)
+                            }}
+                            >
+                                <ListItemIcon>
+                                    <IconButton><SettingsIcon fontSize="small" /></IconButton>
+                                </ListItemIcon>
+                                <ListItemText>
+                                    {t('settings')}
                                 </ListItemText>
                                 <Typography variant="body2" color="text.secondary">
                                     {/* ⌘N */}
@@ -684,6 +687,7 @@ function Main() {
                             <MessageInput
                                 quoteCache={quoteCache}
                                 setQuotaCache={setQuoteCache}
+                                auth={store.settings.authorization}
                                 onSubmit={async (newUserMsg: Message, needGenerating = true) => {
                                     if (needGenerating) {
                                         const promptsMsgs = [...store.currentSession.messages, newUserMsg]
@@ -791,6 +795,7 @@ function Main() {
 }
 
 function MessageInput(props: {
+    auth: string,
     onSubmit: (newMsg: Message, needGenerating?: boolean) => void
     quoteCache: string
     setQuotaCache(cache: string): void
@@ -808,6 +813,9 @@ function MessageInput(props: {
     const submit = (needGenerating = true) => {
         if (messageInput.trim() === '') {
             return
+        }
+        if (props.auth === '') {
+            
         }
         props.onSubmit(createMessage('user', messageInput), needGenerating)
         setMessageInput('')

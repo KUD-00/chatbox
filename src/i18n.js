@@ -19,7 +19,7 @@ const resources = {
   'en': {
     translation: en,
   },
-	'jp':{
+	'ja':{
 		translation: jp
 	}
 }
