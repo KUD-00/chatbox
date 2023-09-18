@@ -147,11 +147,10 @@ function Main() {
     })
 
     useEffect(() => {
-        // this is not perfectly working now. langcode is really a mess to if-else
+        // TODO: this is not perfectly working now. langcode is really a mess to if-else
         const langcode = navigator.language.split('-')[0]
-        if (store.settings.language == '') {
-            store.setSettings({ ...store.settings, language: langcode});
-        }
+        // TODO: need to check if the langcode is in supported language
+        store.setSettings({ ...store.settings, language: langcode });
     }, []); 
 
     // stop auto-scroll when user scroll

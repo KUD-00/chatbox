@@ -1,40 +1,40 @@
 {
-    "zh-cn": {
+    "zh": {
         "description": "请选择语境",
         "prompts": [
             {
                 "title": "小红书写手",
-                "prompt": "小红书推荐各种种草"
+                "prompt": "你是一名小红书写手"
             },
             {
                 "title": "日报周报",
-                "prompt": "每天汇报，每周总结"
+                "prompt": "你是一名负责写日报的人"
             }
         ]
     },
     "ja": {
-        "description": "请选择语境",
+        "description": "コンテクストを選ぶ",
         "prompts": [
             {
-                "title": "小红书写手",
-                "prompt": "小红书推荐各种种草"
+                "title": "REDレッド",
+                "prompt": "あなたは"
             },
             {
-                "title": "日报周报",
-                "prompt": "每天汇报，每周总结"
+                "title": "デーリーレポート",
+                "prompt": "あなたは"
             }
         ]
     },
     "en": {
-        "description": "请选择语境",
+        "description": "choose the context",
         "prompts": [
             {
-                "title": "小红书写手",
-                "prompt": "小红书推荐各种种草"
+                "title": "RED Writer",
+                "prompt": "you are a professional writer for social media app"
             },
             {
-                "title": "日报周报",
-                "prompt": "每天汇报，每周总结"
+                "title": "Daily Report",
+                "prompt": "you are a professional writer for daily report"
             }
         ]
     }

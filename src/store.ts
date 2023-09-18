@@ -24,7 +24,7 @@ export function getDefaultSettings(): Settings {
         showTokenCount: false,
         showModelName: false,
         theme: ThemeMode.System,
-        language: '',
+        language: 'en',
         fontSize: 13,
         test: '',
     }

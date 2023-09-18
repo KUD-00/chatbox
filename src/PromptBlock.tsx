@@ -78,8 +78,8 @@ function _Block(props: Props) {
     const { msg, generate, currentSession, updateChatSession, language } = props;
     const [isHovering, setIsHovering] = useState(false)
 
-    const generateCode = () => {
-        const prompt = createMessage('user', 'you should act as a code intepreter')
+    const generatePrompt = (promptString: string) => {
+        const prompt = createMessage('user', promptString)
         const promptsMsgs = [...currentSession.messages, prompt]
         const newAssistantMsg = createMessage('assistant', '....')
         currentSession.messages = [...currentSession.messages, prompt, newAssistantMsg]
@@ -125,7 +125,7 @@ function _Block(props: Props) {
                                 wordWrap: 'break-word',
                             }}
                             className='msg-content'
-                            dangerouslySetInnerHTML={{ __html: md.render(msg) }}
+                            dangerouslySetInnerHTML={{ __html: md.render(prompt[language].description) }}
                         />
 
                     </Grid>
@@ -134,20 +134,13 @@ function _Block(props: Props) {
                 </Grid>
             </Grid>
             <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
-            <Grid item>
-                <Button variant="contained" color="primary" onClick={generateCode}>
-                    {t('red prompt title')}
-                </Button>
-            </Grid>
-            <Grid item>
-                <Button variant="contained" color="primary">
-                    {t("daily report prompt title")}
-                </Button>
-            </Grid>
-            <Grid item>
-                <Button variant="contained" color="primary">
-                </Button>
-            </Grid>
+                {prompt[language].prompts.map((prompt) => (
+                    <Grid item>
+                        <Button variant="contained" color="primary" onClick={() => generatePrompt(prompt.prompt)}>
+                            {prompt.title}
+                        </Button>
+                    </Grid>
+                ))}
         </Grid>
         </ListItem>
     );
@@ -196,7 +189,5 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function PromptBlock(props: Props) {
-    return useMemo(() => {
-        return <_Block {...props} />
-    }, [props.msg])
+    return <_Block {...props} />
 }
