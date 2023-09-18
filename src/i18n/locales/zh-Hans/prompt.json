@@ -1,10 +1,13 @@
-[
-    {
-        "title": "小红书写手",
-        "Prompt": ""
-    },
-    {
-        "title": "",
-        "Prompt": ""
-    }
-]
+{
+    "description": "",
+    "prompts": [
+        {
+            "title": "小红书写手",
+            "prompt": "小红书推荐各种种草"
+        },
+        {
+            "title": "日报周报",
+            "prompt": "每天汇报，每周总结"
+        }
+    ]
+}
