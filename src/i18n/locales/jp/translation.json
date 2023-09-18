@@ -64,5 +64,9 @@
 	"creative": "クリエイティブ",
 	"Special thanks to the following sponsors:": "以下のスポンサーに大変感謝しています：",
 	"register":"新規登録",
-	"login":"ログイン"
+	"login":"ログイン",
+  "red prompt title": "レッドRED",
+  "red prompt": "あなたは",
+  "daily report prompt title": "デーリーレポート",
+  "daily report prompt": "あなたは"
 }

@@ -78,5 +78,9 @@
   "Language Models":"模型",
   "Price":"单价",
   "Actions":"操作",
-  "Charge": "充值"
+  "Charge": "充值",
+  "red prompt title": "小红书写手",
+  "red prompt": "小红书推荐各种种草",
+  "daily report prompt title": "日报周报",
+  "daily report prompt": "每天汇报，每周总结"
 }

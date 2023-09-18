@@ -77,5 +77,9 @@
   "Language Models": "Language Models",
   "Price": "Price",
   "Actions": "Actions",
-  "Charge": "Charge"
+  "Charge": "Charge",
+  "red prompt title": "RED writer",
+  "red prompt": "You are a writer for RED app",
+  "daily report prompt title": "Daily Report Writer",
+  "daily report prompt": "You are a writer for daily report"
 }

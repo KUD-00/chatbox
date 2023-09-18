@@ -28,11 +28,6 @@ export function createSession(name: string = 'Untitled'): Session {
         id: uuidv4(),
         name: name,
         messages: [
-            {
-                id: uuidv4(),
-                role: 'system',
-                content: 'You are a helpful assistant. You can help me by answering my questions. You can also ask me questions.'
-            }
         ],
     }
 }

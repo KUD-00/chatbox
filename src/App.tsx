@@ -57,6 +57,7 @@ import LoginWindow from './LoginWindow';
 import CreditWindow from './CreditWindow';
 import BillingWindow from './BillingWindow'
 import { LLM } from './types'
+import PromptBlock from './PromptBlock';
 
 function Main() {
     const { t } = useTranslation()
@@ -148,7 +149,7 @@ function Main() {
     useEffect(() => {
         // this is not perfectly working now. langcode is really a mess to if-else
         const langcode = navigator.language.split('-')[0]
-        if (store.settings.language != langcode) {
+        if (store.settings.language == '') {
             store.setSettings({ ...store.settings, language: langcode});
         }
     }, []); 
@@ -616,6 +617,13 @@ function Main() {
                             component="div"
                             ref={messageListRef}
                         >
+                            <PromptBlock
+                                msg={"选择语境"}
+                                generate={generate}
+                                currentSession={store.currentSession}
+                                updateChatSession={store.updateChatSession}
+                                language={store.settings.language}
+                            />
                             {
                                 store.currentSession.messages.map((msg, ix) => (
                                     <Block id={msg.id} key={msg.id} msg={msg}
@@ -684,26 +692,53 @@ function Main() {
                                     <ArrowCircleDownIcon />
                                 </IconButton>
                             </ButtonGroup>)}
-                            <MessageInput
-                                quoteCache={quoteCache}
-                                setQuotaCache={setQuoteCache}
-                                auth={store.settings.authorization}
-                                onSubmit={async (newUserMsg: Message, needGenerating = true) => {
-                                    if (needGenerating) {
-                                        const promptsMsgs = [...store.currentSession.messages, newUserMsg]
-                                        const newAssistantMsg = createMessage('assistant', '....')
-                                        store.currentSession.messages = [...store.currentSession.messages, newUserMsg, newAssistantMsg]
-                                        store.updateChatSession(store.currentSession)
-                                        generate(store.currentSession, promptsMsgs, newAssistantMsg)
-                                        messageScrollRef.current = { msgId: newAssistantMsg.id, smooth: true }
-                                    } else {
-                                        store.currentSession.messages = [...store.currentSession.messages, newUserMsg]
-                                        store.updateChatSession(store.currentSession)
-                                        messageScrollRef.current = { msgId: newUserMsg.id, smooth: true }
-                                    }
-                                }}
-                                textareaRef={textareaRef}
-                            />
+                            {store.settings.authorization != '' ?
+                                <MessageInput
+                                    quoteCache={quoteCache}
+                                    setQuotaCache={setQuoteCache}
+                                    auth={store.settings.authorization}
+                                    onSubmit={async (newUserMsg: Message, needGenerating = true) => {
+                                        if (needGenerating) {
+                                            const promptsMsgs = [...store.currentSession.messages, newUserMsg]
+                                            const newAssistantMsg = createMessage('assistant', '....')
+                                            store.currentSession.messages = [...store.currentSession.messages, newUserMsg, newAssistantMsg]
+                                            store.updateChatSession(store.currentSession)
+                                            generate(store.currentSession, promptsMsgs, newAssistantMsg)
+                                            messageScrollRef.current = { msgId: newAssistantMsg.id, smooth: true }
+                                        } else {
+                                            store.currentSession.messages = [...store.currentSession.messages, newUserMsg]
+                                            store.updateChatSession(store.currentSession)
+                                            messageScrollRef.current = { msgId: newUserMsg.id, smooth: true }
+                                        }
+                                    }}
+                                    textareaRef={textareaRef}
+                                />
+                                : <Stack direction="column" spacing={1} >
+                                    <Grid container spacing={1}>
+                                        <Grid item xs>
+                                            <TextField
+                                                multiline
+                                                label="Please Login"
+                                                fullWidth
+                                                maxRows={12}
+                                                autoFocus
+                                                defaultValue="Please Login"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+
+                                                id='message-input'
+                                            />
+                                        </Grid>
+                                        <Grid item xs='auto'>
+                                            <Button type='submit' variant="contained" size='large'
+                                                style={{ padding: '15px 16px' }}>
+                                                <SendIcon />
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                    <Typography variant='caption' style={{ opacity: 0.3 }}>{t('[Enter] send, [Shift+Enter] line break, [Ctrl+Enter] send without generating')}</Typography>
+                                </Stack>}
                         </Box>
                     </Stack>
                 </Grid>
