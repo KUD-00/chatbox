@@ -12,7 +12,8 @@ import { Trans, useTranslation } from 'react-i18next'
 
 interface LoginSettings {
     authorization: string,
-    apiNodeEndpoints: string[]
+    apiNodeEndpoints: string[],
+    account: string
 }
 
 interface Props {
@@ -78,7 +79,7 @@ export default function LoginWindow(props: Props) {
         const data: LoginResponse | LoginErrorResponse = await response.json()
         if ('api_node_endpoints' in data) {
             console.log(data)
-            props.save({ authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints })
+            props.save({ authorization: data.authorization, apiNodeEndpoints: data.api_node_endpoints, account:data.user_uuid })
             //setMsg('Login Successful')
         } else {
             setMsg(data.error)
