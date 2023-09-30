@@ -136,7 +136,7 @@ function _Block(props: Props) {
             <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
                 {prompt[language].prompts.map((prompt) => (
                     <Grid item>
-                        <Button variant="contained" color="primary" onClick={() => generatePrompt(prompt.prompt)}>
+                        <Button variant="outlined" size="small" color="primary" onClick={() => generatePrompt(prompt.prompt)}>
                             {prompt.title}
                         </Button>
                     </Grid>
