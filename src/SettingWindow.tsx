@@ -17,6 +17,7 @@ import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { Trans, useTranslation } from 'react-i18next'
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
 import LightbulbCircleIcon from '@mui/icons-material/LightbulbCircle';
+import { useConfigStore } from './zustand';
 
 const { useEffect } = React
 const models: string[] = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-4', 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314'];
@@ -108,6 +109,7 @@ export default function SettingWindow(props: Props) {
     }
     
     const store = useStore()
+    const configStore = useConfigStore()
     const onLogout = () => {
         store.setSettings({...store.settings, apiNodeEndpoints: ['']})
         store.setSettings({...store.settings, authorization: ''})
@@ -124,9 +126,9 @@ export default function SettingWindow(props: Props) {
                     <Select
                         label="language"
                         id="language-select"
-                        value={settingsEdit.language}
+                        value={configStore.language}
                         onChange={(e) => {
-                            setSettingsEdit({ ...settingsEdit, language: e.target.value });
+                            configStore.setLanguage(e.target.value)
                         }}>
                         {languages.map((language) => (
                             <MenuItem key={language} value={language}>

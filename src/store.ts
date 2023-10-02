@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ThemeMode } from './theme';
 import * as api from './api'
 import * as remote from './remote'
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 // setting store
 
@@ -88,7 +88,7 @@ export async function writeSessions(sessions: Session[]) {
 // react hook
 
 export default function useStore() {
-    const { i18n } = useTranslation();
+    // const { i18n } = useTranslation();
 
     const [version, _setVersion] = useState('unknown')
     const [needCheckUpdate, setNeedCheckUpdate] = useState(false)
@@ -131,7 +131,7 @@ export default function useStore() {
     const setSettings = (settings: Settings) => {
         _setSettings(settings)
         writeSettings(settings)
-        i18n.changeLanguage(settings.language).then();
+        // i18n.changeLanguage(settings.language).then();
     }
 
     const [chatSessions, _setChatSessions] = useState<Session[]>([createSession()])

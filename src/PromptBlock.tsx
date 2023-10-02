@@ -75,7 +75,8 @@ export interface Props {
 
 function _Block(props: Props) {
     const { t } = useTranslation()
-    const { msg, generate, currentSession, updateChatSession, language } = props;
+    const { msg, generate, currentSession, updateChatSession } = props;
+    const language = props.language ? props.language : 'en'
     const [isHovering, setIsHovering] = useState(false)
 
     const generatePrompt = (promptString: string) => {

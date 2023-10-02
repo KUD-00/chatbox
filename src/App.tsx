@@ -58,10 +58,13 @@ import CreditWindow from './CreditWindow';
 import BillingWindow from './BillingWindow'
 import { LLM } from './types'
 import PromptBlock from './PromptBlock';
+import { useConfigStore } from './zustand';
+import i18n from './i18n';
 
 function Main() {
     const { t } = useTranslation()
     const store = useStore()
+    const configStore = useConfigStore()
     const sensors = useSensors(
         useSensor(TouchSensor, {
             activationConstraint: {
@@ -148,9 +151,13 @@ function Main() {
 
     useEffect(() => {
         // TODO: this is not perfectly working now. langcode is really a mess to if-else
-        const langcode = navigator.language.split('-')[0]
-        // TODO: need to check if the langcode is in supported language
-        store.setSettings({ ...store.settings, language: langcode });
+        if (configStore.language == '') {
+            const langcode = navigator.language.split('-')[0]
+            // TODO: need to check if the langcode is in supported language
+            configStore.setLanguage(langcode)
+        } else {
+            i18n.changeLanguage(configStore.language).then();
+        }
     }, []); 
 
     // stop auto-scroll when user scroll
@@ -621,7 +628,7 @@ function Main() {
                                 generate={generate}
                                 currentSession={store.currentSession}
                                 updateChatSession={store.updateChatSession}
-                                language={store.settings.language}
+                                language={configStore.language}
                             />
                             {
                                 store.currentSession.messages.map((msg, ix) => (
@@ -781,7 +788,7 @@ function Main() {
                     auth={store.settings.authorization}
                 />
 
-                <AboutWindow open={openAboutWindow} version={store.version} lang={store.settings.language}
+                <AboutWindow open={openAboutWindow} version={store.version} lang={configStore.language}
                     close={() => setOpenAboutWindow(false)}
                 />
                 {

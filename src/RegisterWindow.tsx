@@ -84,7 +84,6 @@ export default function RegisterWindow(props: Props) {
             nickname: nicknameRef.current?.value,
             password: passwordRef.current?.value,
         };
-        console.log(payload)
         const response = await fetch("https://bot100.app:7001/api/v1/users", {
             method: 'POST',
             headers: {
